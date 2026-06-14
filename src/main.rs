@@ -123,6 +123,10 @@ impl Engine {
         }
     }
 
+    fn col(x: usize) -> usize {
+        x & 7
+    }
+
     fn row(x: usize) -> usize {
         x >> 3
     }
