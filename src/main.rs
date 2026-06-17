@@ -1,3 +1,5 @@
+use std::time::Instant;
+
 const MAX_PLY: usize = 16;
 const WHITE: usize = 0;
 const BLACK: usize = 1;
@@ -123,9 +125,9 @@ impl Engine {
         }
     }
 
-    fn col(x: usize) -> usize {
-        x & 7
-    }
+    // fn col(x: usize) -> usize {
+    //     x & 7
+    // }
 
     fn row(x: usize) -> usize {
         x >> 3
@@ -308,7 +310,7 @@ impl Engine {
     }
 
     fn print_board(&self) {
-        println!("\n nodes: {}", self.nodes);
+        println!(" nodes: {}", self.nodes);
         println!(" move: {} to {}\n", self.m_from, self.m_to);
 
         for i in 0..64 {
@@ -317,7 +319,7 @@ impl Engine {
                 println!();
             }
         }
-        println!("\n");
+        println!("\n\n");
     }
 }
 
@@ -332,7 +334,14 @@ fn main() {
         engine.ply = 0;
         engine.nodes = 0;
 
+        let start = Instant::now();
+
         engine.search(-5000, 5000, 7);
+
+        let duration = start.elapsed();
+        let elapsed: f64 = duration.as_secs_f64();
+        let nodes_per_sec_float: f64 = (engine.nodes as f64 / elapsed).round();
+        let nodes_per_sec: i32 = nodes_per_sec_float as i32;
 
         if engine.m_from < 0 {
             break;
@@ -344,6 +353,9 @@ fn main() {
         m.piece = engine.pieces[engine.m_from as usize] as u8;
         m.target = engine.pieces[engine.m_to as usize] as u8;
         engine.make_move(&m);
+
+        println!(" clock: {:?}", duration);
+        println!(" nps: {}", nodes_per_sec);
         engine.print_board();
     }
 }
