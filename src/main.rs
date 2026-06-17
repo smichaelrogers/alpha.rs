@@ -327,6 +327,7 @@ impl Engine {
 
 fn main() {
     let mut engine = Engine::new();
+    let depth = 8 as i32;
 
     for _ in 0..100 {
         engine.m_from = -1;
@@ -336,7 +337,7 @@ fn main() {
 
         let start = Instant::now();
 
-        engine.search(-5000, 5000, 7);
+        engine.search(-5000, 5000, depth);
 
         let duration = start.elapsed();
         let elapsed: f64 = duration.as_secs_f64();
@@ -354,6 +355,7 @@ fn main() {
         m.target = engine.pieces[engine.m_to as usize] as u8;
         engine.make_move(&m);
 
+        println!(" depth: {}", nodes_per_sec);
         println!(" clock: {:?}", duration);
         println!(" nps: {}", nodes_per_sec);
         engine.print_board();
