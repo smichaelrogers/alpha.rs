@@ -248,8 +248,11 @@ impl Engine {
                     continue;
                 }
                 self.add_move(f, t as usize);
-                if self.colors[(t + UP[self.mx]) as usize] == EMPTY && Self::row(f) == PAWN_RANK[self.mx] {
-                    self.add_move(f, (t + UP[self.mx]) as usize);
+
+                if t + UP[self.mx] >= 0 && t + UP[self.mx] <= 63 {
+                    if self.colors[(t + UP[self.mx]) as usize] == EMPTY && Self::row(f) == PAWN_RANK[self.mx] {
+                        self.add_move(f, (t + UP[self.mx]) as usize);
+                    }
                 }
             } else {
                 for i in 0..NSTEPS[self.pieces[f]] {
@@ -317,6 +320,8 @@ impl Engine {
         println!("\n");
     }
 }
+
+
 
 fn main() {
     let mut engine = Engine::new();
