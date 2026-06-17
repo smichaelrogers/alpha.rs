@@ -355,7 +355,7 @@ fn main() {
         m.target = engine.pieces[engine.m_to as usize] as u8;
         engine.make_move(&m);
 
-        println!(" depth: {}", nodes_per_sec);
+        println!(" depth: {}", depth);
         println!(" clock: {:?}", duration);
         println!(" nps: {}", nodes_per_sec);
         engine.print_board();
